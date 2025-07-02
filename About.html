@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us - ClothXpress</title>
+  <style>
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0; 
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    a {
+      text-decoration: none;
+      color: #0a74da;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #064a9e;
+    }
+
+    /* Header */
+    header {
+      background: white;
+      padding: 20px 40px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo {
+      font-weight: 900;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: #222;
+      font-family: 'Segoe UI Black', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    nav a {
+      margin-left: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      padding-bottom: 5px;
+      border-bottom: 3px solid transparent;
+    }
+    nav a.active, nav a:hover {
+      border-color: #0a74da;
+      font-weight: 700;
+      color: #0a74da;
+    }
+
+    /* Main About Section */
+    main {
+      flex-grow: 1;
+      max-width: 1200px;
+      margin: 60px auto 80px;
+      padding: 0 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    main img {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 50%;
+      box-shadow: 0 20px 50px rgba(10, 116, 218, 0.2);
+      transition: transform 0.4s ease;
+      cursor: default;
+    }
+    main img:hover {
+      transform: scale(1.05);
+    }
+
+    .about-text {
+      font-weight: 400;
+      color: #444;
+    }
+    .about-text h1 {
+      font-size: 3.2rem;
+      font-weight: 900;
+      margin-bottom: 24px;
+      color: #0a74da;
+      letter-spacing: 1px;
+    }
+    .about-text p {
+      font-size: 1.15rem;
+      margin-bottom: 22px;
+      line-height: 1.75;
+      max-width: 520px;
+    }
+    .about-text p strong {
+      color: #222;
+    }
+
+    /* Footer */
+    footer {
+      background: #222;
+      color: #ddd;
+      padding: 40px 30px;
+      text-align: center;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+        text-align: center;
+        margin: 40px 20px 60px;
+      }
+      main img {
+        margin: 0 auto 30px;
+      }
+      .about-text h1 {
+        font-size: 2.4rem;
+      }
+      .about-text p {
+        max-width: 100%;
+      }
+      nav a {
+        margin-left: 18px;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+
+<script>
+  const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+  if (!user) {
+    // If no user is logged in, go back to login page
+    alert("You must log in first.");
+    window.location.href = "login.html";
+  } else {
+    console.log("User is logged in:", user.username);
+    // You can now show the page content
+  }
+</script>
+
+</head>
+<body>
+
+  <header>
+    <div class="logo">ClothXpress</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">Cart 🛒</a>
+    </nav>
+  </header>
+
+  <main>
+    <img src="https://i.imgur.com/3YgBqWU.jpg" alt="CEO Adeniyi Ebenezer" />
+    <div class="about-text">
+      <h1>About ClothXpress</h1>
+      <p>
+        At <strong>ClothXpress</strong>, fashion is more than just clothing — it’s an expression of identity and confidence.
+        Founded by <strong>Adeniyi Ebenezer</strong>, our visionary CEO, we are dedicated to delivering premium, stylish, and comfortable apparel and sneakers that empower you every day.
+      </p>
+      <p>
+        With years of industry expertise and an unwavering commitment to quality, Adeniyi leads a passionate team focused on innovation and customer satisfaction. Our mission is to blend trendsetting design with unmatched comfort, making ClothXpress your trusted style partner.
+      </p>
+      <p>
+        Thank you for choosing ClothXpress — where excellence meets style, and every piece tells a story.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 ClothXpress. All rights reserved.
+  </footer>
+
+</body>
+</html>

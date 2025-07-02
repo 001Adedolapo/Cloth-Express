@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login - ClothXpress</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 8px;
+  }
+  h2 { text-align: center; margin-bottom: 20px; }
+  label { display: block; margin-top: 15px; font-weight: 600; }
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+  }
+  button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    background: #111;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #333;
+  }
+  .message {
+    margin-top: 15px;
+    font-weight: 600;
+    color: red;
+    text-align: center;
+    min-height: 1.2em;
+  }
+  .link {
+    margin-top: 15px;
+    text-align: center;
+  }
+  .link a {
+    color: #111;
+    text-decoration: none;
+  }
+  .link a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<h2>Login to Your Account</h2>
+<form id="loginForm" autocomplete="off">
+  <label for="username">Username</label>
+  <input type="text" id="username" required />
+  
+  <label for="password">Password</label>
+  <input type="password" id="password" required minlength="6" />
+  
+  <button type="submit">Log In</button>
+</form>
+
+<div class="message" id="msg"></div>
+
+<div class="link">
+  Don't have an account? <a href="register.html">Register here</a>
+</div>
+
+<script>
+  const form = document.getElementById('loginForm');
+  const msg = document.getElementById('msg');
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    msg.textContent = '';
+
+    const username = form.username.value.trim();
+    const password = form.password.value;
+
+    if (!username || !password) {
+      msg.textContent = 'Please enter both username and password.';
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('loggedInUser', JSON.stringify(data.user));
+        alert(`Welcome back, ${data.user.username}!`);
+        // Redirect to your main page or dashboard - change as needed
+        window.location.href = 'index.html';
+      } else {
+        msg.textContent = data.message || 'Invalid username or password.';
+      }
+    } catch (error) {
+      msg.textContent = 'Server error. Please try again later.';
+      console.error('Login error:', error);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ClothXpress Shop</title>
+  <style>
+    body {font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px;}
+    h1 {text-align:center; margin-bottom:40px;}
+
+    .product-card {border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:15px;}
+    .price {font-weight:bold; margin-bottom:10px;}
+    .buy-btn{background:#111;color:#fff;border:none;padding:10px 15px;border-radius:5px;cursor:pointer;}
+    .buy-btn:hover{background:#333;}
+
+    #cart-summary{display:none;margin-top:40px;padding:20px;border:2px solid #111;border-radius:10px;background:#f9f9f9;}
+    #cart-list{list-style:none;padding-left:0;margin-bottom:15px;}
+    #cart-list li{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #ddd;}
+    #cart-total{font-weight:bold;font-size:1.2rem;margin-top:10px;}
+    .qty-btn{background:#ddd;border:none;padding:4px 8px;border-radius:4px;margin:0 4px;cursor:pointer;}
+    .remove-btn, .remove-text-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #c00;
+    }
+    .remove-text-btn {
+      background: #c00;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      margin-left: 10px;
+      transition: background-color 0.3s ease;
+    }
+    .remove-text-btn:hover {
+      background: #a00;
+    }
+
+    #checkout-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);align-items:center;justify-content:center;z-index:9999;}
+    .modal-content{background:#fff;padding:25px;border-radius:10px;width:90%;max-width:400px;}
+    .modal-content button, .modal-content a.whatsapp-btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .modal-content a.whatsapp-btn:hover {
+      background: #25D366; /* WhatsApp green */
+      color: white;
+    }
+
+    .modal-content a.whatsapp-btn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;  /* Changed from block to inline-block */
+  width: auto;            /* So it fits content nicely */
+  min-width: 200px;       /* Keeps a decent clickable size */
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  /* Center horizontally */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+  </style>
+</head>
+<body>
+
+<h1>Products</h1>
+
+<div class="product-card">
+  <h3>AirMax Sneakers</h3>
+  <p class="price">₦32,000</p>
+  <button class="buy-btn">Add to Cart</button>
+</div>
+
+<div class="product-card">
+  <h3>Denim Jacket</h3>
+  <p class="price">₦18,000</p>
+  <button class="buy-btn">Add to Cart</button>
+</div>
+
+<div class="product-card">
+  <h3>Graphic Tee</h3>
+  <p class="price">₦15,000</p>
+  <button class="buy-btn">Add to Cart</button>
+</div>
+
+<div class="product-card">
+  <h3>Baggy Jeans</h3>
+  <p class="price">₦25,000</p>
+  <button class="buy-btn">Add to Cart</button>
+</div>
+
+<div class="product-card">
+  <h3>Crossbody Bag</h3>
+  <p class="price">₦12,000</p>
+  <button class="buy-btn">Add to Cart</button>
+</div>
+
+<div class="product-card">
+  <h3>Cargo Shorts</h3>
+  <p class="price">₦10,500</p>
+  <button class="buy-btn">Add to Cart</button>
+</div>
+
+<div class="product-card">
+  <h3>Premium Slides</h3>
+  <p class="price">₦9,000</p>
+  <button class="buy-btn">Add to Cart</button>
+</div>
+
+<div class="product-card">
+  <h3>Baseball Cap</h3>
+  <p class="price">₦4,500</p>
+  <button class="buy-btn">Add to Cart</button>
+</div>
+
+<section id="cart-summary">
+  <h2>Your Cart</h2>
+  <ul id="cart-list"></ul>
+  <p id="cart-total">Total: ₦0</p>
+  <button id="pay-btn" style="background:#0A7; color:#fff; padding:12px 20px; border:none; border-radius:5px; cursor:pointer;">Pay</button>
+</section>
+
+<div id="checkout-modal">
+  <div class="modal-content">
+    <h3>Checkout - Bank Payment</h3>
+    <p><strong>Bank Name:</strong> Opay</p>
+    <p><strong>Account Name:</strong> Adeniyi Ebenezer Adedolapo</p>
+    <p><strong>Account Number:</strong> 8083046264</p>
+    <p><strong>Total Amount:</strong> <span id="modal-total">₦0</span></p>
+
+    <!-- Removed input fields and confirm payment button -->
+
+    <!-- WhatsApp payment proof button -->
+    <a
+      href="https://wa.me/2348083046264?text=Hello,%20I%20have%20paid%20for%20my%20order%20at%20ClothXpress.%20Please%20find%20my%20payment%20proof%20attached."
+      target="_blank"
+      class="whatsapp-btn"
+      title="Send Payment Proof via WhatsApp"
+    >
+      Send Payment Proof via WhatsApp
+    </a>
+  </div>
+</div>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem('clothx-cart') || '[]');
+  const cartSummary = document.getElementById('cart-summary');
+  const cartList = document.getElementById('cart-list');
+  const cartTotalTxt = document.getElementById('cart-total');
+  const checkoutModal = document.getElementById('checkout-modal');
+  const modalTotal = document.getElementById('modal-total');
+
+  function saveCart() {
+    localStorage.setItem('clothx-cart', JSON.stringify(cart));
+  }
+
+  function renderCart() {
+    cartList.innerHTML = '';
+    let total = 0;
+
+    if (cart.length === 0) {
+      cartSummary.style.display = 'none';
+      saveCart();
+      return;
+    }
+
+    cart.forEach((item, idx) => {
+      total += item.price * item.qty;
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${item.name}</span>
+        <span>
+          <button class="qty-btn" data-idx="${idx}" data-d="-1">-</button>
+          ${item.qty}
+          <button class="qty-btn" data-idx="${idx}" data-d="1">+</button>
+          <button class="remove-btn" data-idx="${idx}" title="Remove Item">&times;</button>
+          <button class="remove-text-btn" data-idx="${idx}">Remove from Cart</button>
+        </span>`;
+      cartList.appendChild(li);
+    });
+
+    cartTotalTxt.textContent = `Total: ₦${total.toLocaleString()}`;
+    cartSummary.style.display = 'block';
+    saveCart();
+  }
+
+  function addToCart(name, price) {
+    const found = cart.find(i => i.name === name);
+    found ? found.qty++ : cart.push({ name, price, qty: 1 });
+    renderCart();
+  }
+
+  document.querySelectorAll('.buy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.product-card');
+      const name = card.querySelector('h3').textContent;
+      const price = parseInt(card.querySelector('.price').textContent.replace(/[^\d]/g, ''));
+      addToCart(name, price);
+      alert(`${name} added to cart`);
+    });
+  });
+
+  cartList.addEventListener('click', e => {
+    if (e.target.classList.contains('qty-btn')) {
+      const i = +e.target.dataset.idx;
+      cart[i].qty += +e.target.dataset.d;
+      if (cart[i].qty < 1) cart.splice(i, 1);
+      renderCart();
+    }
+    if (e.target.classList.contains('remove-btn') || e.target.classList.contains('remove-text-btn')) {
+      const idx = +e.target.dataset.idx;
+      cart.splice(idx, 1);
+      renderCart();
+    }
+  });
+
+  // Open modal & show bank info + total amount
+  document.getElementById('pay-btn').addEventListener('click', () => {
+    if (cart.length === 0) {
+      alert('Your cart is empty!');
+      return;
+    }
+    let total = cart.reduce((t, i) => t + i.price * i.qty, 0);
+    modalTotal.textContent = `₦${total.toLocaleString()}`;
+    checkoutModal.style.display = 'flex';
+  });
+
+  // Close modal if clicked outside content
+  checkoutModal.addEventListener('click', e => {
+    if (e.target === checkoutModal) checkoutModal.style.display = 'none';
+  });
+
+  renderCart();
+
+
+  // Check if user is logged in
+function isLoggedIn() {
+  return localStorage.getItem('clothx-current-user') !== null;
+}
+
+// When user clicks Buy Now buttons
+document.querySelectorAll('.buy-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    if (!isLoggedIn()) {
+      alert('Please log in or register to make a purchase.');
+      // Save current page or target page to redirect after login
+      sessionStorage.setItem('redirectAfterLogin', window.location.href);
+      window.location.href = 'login.html';
+      e.preventDefault();
+    }
+    // else continue normal Buy action...
+  });
+});
+
+// When user clicks Pay button on cart page
+const payBtn = document.getElementById('pay-btn');
+if (payBtn) {
+  payBtn.addEventListener('click', e => {
+    if (!isLoggedIn()) {
+      alert('Please log in or register to proceed to payment.');
+      sessionStorage.setItem('redirectAfterLogin', window.location.href);
+      window.location.href = 'login.html';
+      e.preventDefault();
+    }
+    // else continue to checkout modal...
+  });
+}
+
+</script>
+
+</body>
+</html>
