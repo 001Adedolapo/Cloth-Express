@@ -43,8 +43,10 @@ nav a:hover {
 /* HERO SECTION */
 .hero {
   height: 100vh;
-  background: url('https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
-  position: relative;
+  background: url(Brand\ logo.jpg);
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
